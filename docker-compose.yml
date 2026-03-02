@@ -5,7 +5,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: aRsdCc44nVzF5@%
       POSTGRES_DB: grocery
-      PORT: 3000
     volumes:
       - groceryData:/var/lib/postgresql/data
     healthcheck:
@@ -15,8 +14,6 @@ services:
       retries: 20
   backend:
     build: ./backend
-    ports:
-      - "3000:3000"
     depends_on:
       - database
     environment:
@@ -29,62 +26,22 @@ services:
 
   frontend:
     build: ./frontend
-    ports:
-      - "5173:5173"
     depends_on:
       - backend
     command: npm run dev -- --host 0.0.0.0
     environment:
-       - VITE_API_URL=http://localhost:3000
+       - VITE_API_URL=/api
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
+      - backend
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
 
 volumes:
   groceryData:
 
 
-
-
-
-
-# services:
-#   db:
-#     image: postgres:16
-#     container_name: grocery-db
-#     environment:
-#       POSTGRES_USER: postgres
-#       POSTGRES_PASSWORD: aRsdCc44nVzF5@%
-#       POSTGRES_DB: GROCERY_LIST
-#     ports:
-#       - "5430:5432"
-#     volumes:
-#       - pgdata:/var/lib/postgresql/data
-#     healthcheck:
-#       test: ["CMD-SHELL", "pg_isready -U postgres -d GROCERY_LIST"]
-#       interval: 5s
-#       timeout: 3s
-#       retries: 20
-
-#   backend:
-#     build: ./backend
-#     container_name: grocery-backend
-#     environment:
-#       PORT: 3000
-#       # IMPORTANT: db is the hostname inside docker compose network
-#       DATABASE_URL: postgresql://postgres:aRsdCc44nVzF5%40%25@db:5432/GROCERY_LIST
-#     ports:
-#       - "3000:3000"
-#     depends_on:
-#       db:
-#         condition: service_healthy
-
-#   frontend:
-#     build: ./frontend
-#     container_name: grocery-frontend
-#     environment:
-#       - VITE_API_URL=http://localhost:3000
-#     ports:
-#       - "5173:5173"
-#     depends_on:
-#       - backend
-
-# volumes:
-#   pgdata:
