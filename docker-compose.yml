@@ -27,8 +27,6 @@ services:
       DB_PASSWORD: aRsdCc44nVzF5@%
       DB_NAME: grocery
       DATABASE_URL: postgresql://postgres:aRsdCc44nVzF5@%@database:5432/grocery
-    networks:
-      - internal
   frontend:
     build: ./frontend
     depends_on:
