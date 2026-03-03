@@ -22,7 +22,6 @@ export default function GroceryList() {
     if (!trimmedName) {
       return
     }
-
     try {
       const response = await axios.post<GroceryItem>(`/api/items`, {
         name: trimmedName,
@@ -45,19 +44,18 @@ export default function GroceryList() {
     }
   }
 
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await axios.get(`/api/items`);
+        setItems(response.data);
+      } catch (error) {
+        console.error("Error fetching items:", error);
+      }
+    };
 
-useEffect(() => {
-  const getData = async () => {
-    try {
-      const response = await axios.get(`/api/items`);
-      setItems(response.data);
-    } catch (error) {
-      console.error("Error fetching items:", error);
-    }
-  };
-
-  getData();
-}, []);
+    getData();
+  }, []);
 
   return (
     <div className="w-full max-w-xl h-[700px] flex flex-col relative rounded-3xl border border-emerald-100 bg-gradient-to-b from-emerald-50 to-white p-6 shadow-xl sm:p-8">
@@ -95,7 +93,7 @@ useEffect(() => {
       </form>
 
       <section className=" bg-gray-50 overflow-y-scroll flex-1 min-h-0 p-2 rounded-xl">
-        {items.length === 0 ? (
+        {items && items.length === 0 ? (
           <div className="rounded-xl border border-dashed border-emerald-200 bg-white p-5 text-center text-sm text-emerald-700">
             No items yet. Add your first grocery item above.
           </div>
