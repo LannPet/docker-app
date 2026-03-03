@@ -58,7 +58,7 @@ export default function GroceryList() {
   }, []);
 
   return (
-    <div className="w-full max-w-xl h-[700px] flex flex-col relative rounded-3xl border border-emerald-100 bg-gradient-to-b from-emerald-50 to-white p-6 shadow-xl sm:p-8">
+    <div className="w-full max-w-xl h-[700px] flex flex-col relative rounded-3xl border border-emerald-100 bg-gradient-to-b from-teal-200 to-teal-100 p-6 shadow-xl sm:p-8">
       <section className="mb-6 border-b border-emerald-100 pb-6 text-center grow-0 shrink-0">
         <h1 className="text-3xl font-bold tracking-tight text-emerald-900 sm:text-4xl">
           Grocery List
