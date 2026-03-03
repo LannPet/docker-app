@@ -24,7 +24,7 @@ export default function GroceryList() {
     }
 
     try {
-      const response = await axios.post<GroceryItem>(`${import.meta.env.VITE_API_URL}/items`, {
+      const response = await axios.post<GroceryItem>(`/api/items`, {
         name: trimmedName,
         amount: parsedAmount,
       })
@@ -38,7 +38,7 @@ export default function GroceryList() {
 
   const handleDeleteItem = async (itemId: number) => {
     try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/items/${itemId}`)
+      await axios.delete(`/api/items/${itemId}`)
       setItems((prevItems) => prevItems.filter((item) => item.id !== itemId))
     } catch (error) {
       console.error("Error deleting item:", error)
@@ -49,7 +49,7 @@ export default function GroceryList() {
 useEffect(() => {
   const getData = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/items`);
+      const response = await axios.get(`/api/items`);
       setItems(response.data);
     } catch (error) {
       console.error("Error fetching items:", error);
